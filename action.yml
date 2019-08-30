@@ -1,0 +1,23 @@
+name: 'Azure Functions Container'
+description: 'Deploy Functions Container to Azure'
+inputs:
+  app-name:
+    description: 'Name of the Azure Function App'
+    required: true
+  image:
+    description: "Specify the fully qualified container image(s) name. For example, 'myregistry.azurecr.io/nginx:latest' or 'python:3.7.2-alpine/'."
+    required: true
+  container-command:
+    description: "Enter the start up command. For ex. 'dotnet run' or '/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost'"
+    required: false
+  slot-name:
+    description: 'Function app slot to be deploy to'
+    required: false
+outputs:
+  app-url:
+    description: 'URL to work with your function app'
+branding:
+  icon: 'container-functionapp.svg'
+runs:
+  using: 'node12'
+  main: 'lib/main.js'

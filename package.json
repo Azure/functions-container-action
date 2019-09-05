@@ -1,0 +1,24 @@
+{
+  "name": "functionapp-container",
+  "version": "1.0.0",
+  "description": "Deploy to Azure Functions Container",
+  "main": "lib/main.js",
+  "scripts": {
+    "start": "node lib/main.js",
+    "build": "tsc --project tsconfig.prod.json"
+  },
+  "author": {
+    "name": "Sumiran Aggarwal",
+    "email": "Sumiran.Aggarwal@microsoft.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^12.6.8",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "@actions/core": "^1.0.0",
+    "@types/q": "^1.5.2",
+    "pipelines-appservice-lib": "^1.0.3"
+  }
+}

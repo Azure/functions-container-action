@@ -12,7 +12,7 @@ The definition of this GitHub Action is in [action.yml](https://github.com/Azure
 
 ## Dependencies on other GitHub Actions
 * [Checkout](https://github.com/actions/checkout) Checkout your Git repository content into GitHub Actions agent.
-* [Azure Login](https://github.com/Azure/actions) Login with your Azure credentials for function app deployment authentication.
+* [Azure Login](https://github.com/Azure/login) Login with your Azure credentials for function app deployment authentication.
 
 ## Azure Service Principle for RBAC
 Create an [Azure Service Principal for RBAC](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview) and add it as a [GitHub Secret in your repository](https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables).

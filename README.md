@@ -44,7 +44,7 @@ Create an [Azure Service Principal for RBAC](https://docs.microsoft.com/en-us/az
 ## Create Azure function app and Deploy to function app container using GitHub Actions
 1. Follow the tutorial [Create a function on Linux using a custom image](https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-function-linux-custom-image)
 2. Customize your Dockerfile to ensure the function app dependencies can be resolved properly on runtime (e.g. npm install)
-3. Use the [linux-container-functionapp-on-azure.yml](https://github.com/Azure/actions-workflow-samples/blob/master/linux-container-functionapp-on-azure.yml) template as a reference, create a new workflow.yml file under your project `./github/workflows/`
+3. Use the [linux-container-functionapp-on-azure.yml](https://github.com/Azure/actions-workflow-samples/tree/master/FunctionApp/linux-container-functionapp-on-azure.yml) template as a reference, create a new workflow.yml file under your project `./github/workflows/`
 4. Commit and push your project to GitHub repository, you should see a new GitHub Action initiated in **Actions** tab.
 
 # Contributing

@@ -1,8 +1,8 @@
 import * as core from '@actions/core';
-import { AzureResourceFilterUtility } from "pipelines-appservice-lib/lib/RestUtilities/AzureResourceFilterUtility";
-import { IAuthorizationHandler } from "pipelines-appservice-lib/lib/ArmRest/IAuthorizationHandler";
-import { getHandler } from 'pipelines-appservice-lib/lib/AuthorizationHandlerFactory';
-import { exist } from 'pipelines-appservice-lib/lib/Utilities/packageUtility';
+
+import { AzureResourceFilterUtility } from "azure-actions-appservice-rest/Utilities/AzureResourceFilterUtility";
+import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer";
+
 import fs = require('fs');
 
 export class TaskParameters {
@@ -10,23 +10,23 @@ export class TaskParameters {
     private _appName: string;
     private _image: string;
     private _resourceGroupName?: string;
-    private _endpoint: IAuthorizationHandler;
+    private _endpoint: IAuthorizer;
     private _containerCommand: string;
     private _kind: string;
     private _slot: string;
     private _isLinux: boolean;
 
-    private constructor() {
+    private constructor(endpoint: IAuthorizer) {
         this._appName = core.getInput('app-name', { required: true });
         this._image = core.getInput('image');
         this._slot = core.getInput('slot-name');
         this._containerCommand = core.getInput('container-command');
-        this._endpoint = getHandler();
+        this._endpoint = endpoint;
     }
 
-    public static getTaskParams() {
+    public static getTaskParams(endpoint: IAuthorizer) {
         if(!this.taskparams) {
-            this.taskparams = new TaskParameters();
+            this.taskparams = new TaskParameters(endpoint);
         }
         return this.taskparams;
     }

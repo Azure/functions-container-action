@@ -1,25 +1,27 @@
 import * as core from '@actions/core';
 import * as crypto from "crypto";
 
+import { AuthorizerFactory } from 'azure-actions-webclient/AuthorizerFactory';
+import { AzureAppService } from 'azure-actions-appservice-rest/Arm/azure-app-service';
+import { AzureAppServiceUtility } from 'azure-actions-appservice-rest/Utilities/AzureAppServiceUtility';
+import { ContainerDeploymentUtility } from 'azure-actions-appservice-rest/Utilities/ContainerDeploymentUtility';
+import { KuduServiceUtility } from 'azure-actions-appservice-rest/Utilities/KuduServiceUtility';
+import { TaskParameters } from './taskparameters';
+import { addAnnotation } from 'azure-actions-appservice-rest/Utilities/AnnotationUtility';
+
 var prefix = !!process.env.AZURE_HTTP_USER_AGENT ? `${process.env.AZURE_HTTP_USER_AGENT}` : "";
 let usrAgentRepo = crypto.createHash('sha256').update(`${process.env.GITHUB_REPOSITORY}`).digest('hex');
 let actionName = 'DeployFunctionAppContainerToAzure';
 let userAgentString = (!!prefix ? `${prefix}+` : '') + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`;
 core.exportVariable('AZURE_HTTP_USER_AGENT', userAgentString);
 
-import { KuduServiceUtility } from 'pipelines-appservice-lib/lib/RestUtilities/KuduServiceUtility';
-import { AzureAppService } from 'pipelines-appservice-lib/lib/ArmRest/azure-app-service';
-import { AzureAppServiceUtility } from 'pipelines-appservice-lib/lib/RestUtilities/AzureAppServiceUtility';
-import { ContainerDeploymentUtility } from 'pipelines-appservice-lib/lib/RestUtilities/ContainerDeploymentUtility';
-import { addAnnotation } from 'pipelines-appservice-lib/lib/RestUtilities/AnnotationUtility';
-import { TaskParameters } from './taskparameters';
-
 async function main() {
     let isDeploymentSuccess: boolean = true;
     const responseUrl: string = 'app-url';
 
     try {
-        var taskParams = TaskParameters.getTaskParams();
+        let endpoint = await AuthorizerFactory.getAuthorizer();
+        var taskParams = TaskParameters.getTaskParams(endpoint);
         await taskParams.getResourceDetails();
 
         core.debug("Predeployment Step Started");

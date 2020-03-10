@@ -37,15 +37,15 @@ jobs:
       run: |
         # If your function app project is not located in your repository's root
         # Please change the path to your directory for docker build
-        docker build . -t REGISTRY/NAMESPACE/IMAGE:TAG
-        docker push REGISTRY/NAMESPACE/IMAGE:TAG
+        docker build . -t shivangiregistry.azurecr.io/hello-world:latest
+        docker push shivangiregistry.azurecr.io/hello-world:latest
 
     - name: 'Run Azure Functions Container Action'
       uses: Azure/functions-container-action@v1
       id: fa
       with:
         app-name: shivangilinuxfunctioncontainer
-        image: REGISTRY/NAMESPACE/IMAGE:TAG
+        image: shivangiregistry.azurecr.io/hello-world:latest
     #- name: 'use the published functionapp url in upcoming steps'
     #  run: |
     #    echo "${{ steps.fa.outputs.app-url }}"

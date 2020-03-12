@@ -15,7 +15,7 @@ let actionName = 'DeployFunctionAppContainerToAzure';
 let userAgentString = (!!prefix ? `${prefix}+` : '') + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`;
 core.exportVariable('AZURE_HTTP_USER_AGENT', userAgentString);
 
-async function main() {
+export default async function main() {
     let isDeploymentSuccess: boolean = true;
     const responseUrl: string = 'app-url';
 

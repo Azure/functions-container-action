@@ -1,5 +1,5 @@
 import * as core from "@actions/core";
-import main from "../main";
+import { main } from "../main";
 import { AuthorizerFactory } from 'azure-actions-webclient/AuthorizerFactory';
 import { AzureAppServiceUtility } from 'azure-actions-appservice-rest/Utilities/AzureAppServiceUtility';
 import { ContainerDeploymentUtility } from 'azure-actions-appservice-rest/Utilities/ContainerDeploymentUtility';

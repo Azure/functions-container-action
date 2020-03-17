@@ -8,7 +8,7 @@ import { AzureAppService } from 'azure-actions-appservice-rest/Arm/azure-app-ser
 import { TaskParameters } from "../taskparameters";
 
 jest.mock('@actions/core');
-jest.mock('../Taskparameters');
+jest.mock('../taskparameters');
 jest.mock('azure-actions-webclient/AuthorizerFactory');
 jest.mock('azure-actions-appservice-rest/Arm/azure-app-service');
 jest.mock('azure-actions-appservice-rest/Utilities/AzureAppServiceUtility');

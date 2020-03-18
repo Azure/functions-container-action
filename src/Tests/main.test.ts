@@ -14,7 +14,6 @@ jest.mock('azure-actions-appservice-rest/Arm/azure-app-service');
 jest.mock('azure-actions-appservice-rest/Utilities/AzureAppServiceUtility');
 jest.mock('azure-actions-appservice-rest/Utilities/ContainerDeploymentUtility');
 jest.mock('azure-actions-appservice-rest/Utilities/KuduServiceUtility');
-jest.mock('azure-actions-appservice-rest/Utilities/AnnotationUtility');
 
 describe('main.ts tests', () => {
 
@@ -22,7 +21,7 @@ describe('main.ts tests', () => {
         jest.restoreAllMocks();
     })
         
-    it("gets inputs and executes function container action", async () => {
+    it("gets inputs and executes all the functions", async () => {
 
         try {
 
@@ -41,7 +40,7 @@ describe('main.ts tests', () => {
             let deployWebAppImageSpy = jest.spyOn(ContainerDeploymentUtility.prototype, 'deployWebAppImage');
             let syncFunctionTriggersViaHostruntimeSpy = jest.spyOn(AzureAppService.prototype,'syncFunctionTriggersViaHostruntime');
             let updateDeploymentStatusSpy = jest.spyOn(KuduServiceUtility.prototype, 'updateDeploymentStatus');
-            //let getApplicationURLSpy = jest.spyOn(AzureAppServiceUtility.prototype, 'getApplicationURL').mockResolvedValue('http://test');
+            let getApplicationURLSpy = jest.spyOn(AzureAppServiceUtility.prototype, 'getApplicationURL').mockResolvedValue('http://test');
             let setOutputSpy = jest.spyOn(core, 'setOutput');
             let exportVariableSpy = jest.spyOn(core, 'exportVariable');
         
@@ -54,7 +53,7 @@ describe('main.ts tests', () => {
             expect(deployWebAppImageSpy).toHaveBeenCalled();
             expect(syncFunctionTriggersViaHostruntimeSpy).toHaveBeenCalled();
             expect(updateDeploymentStatusSpy).toHaveBeenCalled();
-            //expect(getApplicationURLSpy).toHaveBeenCalled();
+            expect(getApplicationURLSpy).toHaveBeenCalled();
             expect(setOutputSpy).toHaveBeenCalled();    
             expect(exportVariableSpy).toHaveBeenCalled();
         

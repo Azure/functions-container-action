@@ -5,7 +5,8 @@
   "main": "lib/main.js",
   "scripts": {
     "start": "node lib/main.js",
-    "build": "tsc --project tsconfig.prod.json"
+    "build": "tsc --project tsconfig.prod.json",
+    "test": "jest"
   },
   "author": {
     "name": "Sumiran Aggarwal",
@@ -19,7 +20,10 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^25.1.4",
     "@types/node": "^12.6.8",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.1",
     "typescript": "^3.5.3"
   },
   "dependencies": {

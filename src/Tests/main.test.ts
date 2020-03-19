@@ -21,6 +21,7 @@ describe('main.ts tests', () => {
         jest.restoreAllMocks();
     })
         
+    //this test checks if all the functions in this action are executing or not
     it("gets inputs and executes all the functions", async () => {
 
         try {

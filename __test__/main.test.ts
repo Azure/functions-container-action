@@ -1,14 +1,14 @@
 import * as core from "@actions/core";
-import { main } from "../main";
+import { main } from "../src/main";
 import { AuthorizerFactory } from 'azure-actions-webclient/AuthorizerFactory';
 import { AzureAppServiceUtility } from 'azure-actions-appservice-rest/Utilities/AzureAppServiceUtility';
 import { ContainerDeploymentUtility } from 'azure-actions-appservice-rest/Utilities/ContainerDeploymentUtility';
 import { KuduServiceUtility } from 'azure-actions-appservice-rest/Utilities/KuduServiceUtility';
 import { AzureAppService } from 'azure-actions-appservice-rest/Arm/azure-app-service';
-import { TaskParameters } from "../taskparameters";
+import { TaskParameters } from "../src/taskparameters";
 
 jest.mock('@actions/core');
-jest.mock('../taskparameters');
+jest.mock('../src/taskparameters');
 jest.mock('azure-actions-webclient/AuthorizerFactory');
 jest.mock('azure-actions-appservice-rest/Arm/azure-app-service');
 jest.mock('azure-actions-appservice-rest/Utilities/AzureAppServiceUtility');

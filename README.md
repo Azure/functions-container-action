@@ -47,7 +47,7 @@ Create an [Azure Service Principal for RBAC](https://docs.microsoft.com/en-us/az
 3. Use the [linux-container-functionapp-on-azure.yml](https://github.com/Azure/actions-workflow-samples/tree/master/FunctionApp/linux-container-functionapp-on-azure.yml) template as a reference, create a new workflow.yml file under your project `./github/workflows/`
 4. Commit and push your project to GitHub repository, you should see a new GitHub Action initiated in **Actions** tab.
 
-Azure Functions GitHub Action for deploying customized Azure Functions image is supported on both 'AzureUSGovernment' or 'AzureChinaCloud'.Login to the respective Azure Cloud before running this Action using [Azure Login](https://github.com/Azure/login)
+Azure Functions Action for deploying customized Azure Functions image is supported for the Azure public cloud as well as Azure government clouds ('AzureUSGovernment' or 'AzureChinaCloud') and Azure Stack ('AzureStack') Hub. Before running this action, login to the respective Azure Cloud  using [Azure Login](https://github.com/Azure/login) by setting appropriate value for the `environment` parameter.
 
 # Contributing
 

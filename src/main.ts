@@ -15,7 +15,7 @@ let actionName = 'DeployFunctionAppContainerToAzure';
 let userAgentString = (!!prefix ? `${prefix}+` : '') + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`;
 core.exportVariable('AZURE_HTTP_USER_AGENT', userAgentString);
 
-export async function main() {
+async function main() {
     let isDeploymentSuccess: boolean = true;
     const responseUrl: string = 'app-url';
 
@@ -55,11 +55,9 @@ export async function main() {
             core.debug('Active DeploymentId :'+ activeDeploymentID);
         }
 
-        if(!!appServiceUtility) {
-            let appServiceApplicationUrl: string = await appServiceUtility.getApplicationURL();
-            console.log('Azure Function App URL: ' + appServiceApplicationUrl);
-            core.setOutput(responseUrl, appServiceApplicationUrl);
-        }
+        let appServiceApplicationUrl: string = await appServiceUtility.getApplicationURL();
+        console.log('Azure Function App URL: ' + appServiceApplicationUrl);
+        core.setOutput(responseUrl, appServiceApplicationUrl);
         core.exportVariable('AZURE_HTTP_USER_AGENT', prefix);
         core.debug(isDeploymentSuccess ? "Deployment Succeded" : "Deployment failed");
     }

@@ -66,6 +66,6 @@ export class TaskParameters {
         let appDetails = await AzureResourceFilterUtility.getAppDetails(this.endpoint, this.appName);
         this._resourceGroupName = appDetails["resourceGroupName"];
         this._kind = appDetails["kind"];
-        this._isLinux = this._kind.indexOf('linux') >= 0;
+        this._isLinux = this._kind.indexOf('linux') >= 0 || this._kind.indexOf('kubeapp') >=0;
     }
 }

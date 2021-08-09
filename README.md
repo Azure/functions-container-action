@@ -8,7 +8,7 @@ The repository contains a GitHub Action to deploy your customized function app i
 
 The definition of this GitHub Action is in [action.yml](https://github.com/Azure/functions-container-action/blob/master/action.yml).
 
-# End-to-End Workflow
+# End-to-End Sample workflow
 
 ## Dependencies on other GitHub Actions
 * [Checkout](https://github.com/actions/checkout) Checkout your Git repository content into GitHub Actions agent.

@@ -8,7 +8,7 @@ The repository contains a GitHub Action to deploy your customized function app i
 
 The definition of this GitHub Action is in [action.yml](https://github.com/Azure/functions-container-action/blob/master/action.yml).
 
-# End-to-End Workflow
+# End-to-End Sample workflow
 
 ## Dependencies on other GitHub Actions
 * [Checkout](https://github.com/actions/checkout) Checkout your Git repository content into GitHub Actions agent.
@@ -46,6 +46,8 @@ Create an [Azure Service Principal for RBAC](https://docs.microsoft.com/en-us/az
 2. Customize your Dockerfile to ensure the function app dependencies can be resolved properly on runtime (e.g. npm install)
 3. Use the [linux-container-functionapp-on-azure.yml](https://github.com/Azure/actions-workflow-samples/tree/master/FunctionApp/linux-container-functionapp-on-azure.yml) template as a reference, create a new workflow.yml file under your project `./github/workflows/`
 4. Commit and push your project to GitHub repository, you should see a new GitHub Action initiated in **Actions** tab.
+
+Azure Functions Action for deploying customized Azure Functions image is supported for the Azure public cloud as well as Azure government clouds ('AzureUSGovernment' or 'AzureChinaCloud'). Before running this action, login to the respective Azure Cloud  using [Azure Login](https://github.com/Azure/login) by setting appropriate value for the `environment` parameter.
 
 # Contributing
 

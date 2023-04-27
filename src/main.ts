@@ -45,11 +45,11 @@ export async function main() {
             await containerDeploymentUtility.deployWebAppImage(taskParams.image, "", taskParams.isLinux, false, taskParams.containerCommand);
         }
 
-        try {
-            await appService.syncFunctionTriggersViaHostruntime();
-        } catch (expt) {
-            core.warning("Failed to sync function triggers in function app. Trigger listing may be out of date.");
-        }
+        // try {
+        //     await appService.syncFunctionTriggersViaHostruntime();
+        // } catch (expt) {
+        //     core.warning("Failed to sync function triggers in function app. Trigger listing may be out of date.");
+        // }
     }
     catch (error) {
         core.debug("Deployment Failed with Error: " + error);

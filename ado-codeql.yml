@@ -1,0 +1,26 @@
+jobs:
+  - job: "Build_AND_Start_CodeQL_Reporting"
+    variables:
+      ApplicationInsightAgentVersion: 3.4.16
+      Codeql.Enabled: true
+      Codeql.Language: javascript
+
+    pool:
+      name: '1ES-Hosted-AzFunc'
+      demands:
+        - ImageOverride -equals MMS2019TLS
+    
+    steps:
+    - checkout: self
+    - task: CodeQL3000Init@0
+      inputs:
+        Enabled: true
+        Language: javascript
+
+    # Build tasks
+    # CodeQL WILL NOT WORK for compiled languages if there are no build tasks here
+    - pwsh: '& npm install & npm run build'
+      displayName: 'Build project'
+
+    - task: CodeQL3000Finalize@0
+      condition: always()

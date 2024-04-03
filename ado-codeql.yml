@@ -18,9 +18,12 @@ jobs:
         Language: javascript
 
     # Build tasks
-    # CodeQL WILL NOT WORK for compiled languages if there are no build tasks here
-    - pwsh: '& npm install & npm run build'
-      displayName: 'Build project'
-
+    - task: Bash@3
+      displayName: 'Build project' 
+      inputs:
+        targetType: 'inline'
+        script: |
+          npm install
+          npm run build
     - task: CodeQL3000Finalize@0
       condition: always()

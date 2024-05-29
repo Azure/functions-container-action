@@ -20,5 +20,5 @@ branding:
   icon: 'container-functionapp.svg'
   color: 'blue'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'lib/main.js'

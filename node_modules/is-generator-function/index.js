@@ -3,7 +3,7 @@
 var toStr = Object.prototype.toString;
 var fnToStr = Function.prototype.toString;
 var isFnRegex = /^\s*(?:function)?\*/;
-var hasToStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol';
+var hasToStringTag = require('has-tostringtag/shams')();
 var getProto = Object.getPrototypeOf;
 var getGeneratorFunc = function () { // eslint-disable-line consistent-return
 	if (!hasToStringTag) {
@@ -14,8 +14,7 @@ var getGeneratorFunc = function () { // eslint-disable-line consistent-return
 	} catch (e) {
 	}
 };
-var generatorFunc = getGeneratorFunc();
-var GeneratorFunction = generatorFunc ? getProto(generatorFunc) : {};
+var GeneratorFunction;
 
 module.exports = function isGeneratorFunction(fn) {
 	if (typeof fn !== 'function') {
@@ -27,6 +26,13 @@ module.exports = function isGeneratorFunction(fn) {
 	if (!hasToStringTag) {
 		var str = toStr.call(fn);
 		return str === '[object GeneratorFunction]';
+	}
+	if (!getProto) {
+		return false;
+	}
+	if (typeof GeneratorFunction === 'undefined') {
+		var generatorFunc = getGeneratorFunc();
+		GeneratorFunction = generatorFunc ? getProto(generatorFunc) : false;
 	}
 	return getProto(fn) === GeneratorFunction;
 };

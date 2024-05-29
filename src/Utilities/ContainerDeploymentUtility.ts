@@ -91,7 +91,7 @@ export class ContainerDeploymentUtility {
         if(isLinuxApp) {
             if(isMultiContainer) {
                 let fileData = fs.readFileSync(multicontainerConfigFile);
-                appSettingsNewProperties["linuxFxVersion"] = "COMPOSE|" + (new Buffer(fileData).toString('base64'));
+                appSettingsNewProperties["linuxFxVersion"] = "COMPOSE|" + (Buffer.from(fileData).toString('base64'));
             }
             else {
                 appSettingsNewProperties["linuxFxVersion"] =  "DOCKER|" + imageName;

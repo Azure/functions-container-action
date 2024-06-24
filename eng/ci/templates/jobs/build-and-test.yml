@@ -1,0 +1,44 @@
+parameters:
+- name: pools
+  type: object
+  default:
+    - type: linux
+      name: 1es-pool-azfunc
+      image: 1es-ubuntu-22.04
+      os: linux
+    - type: windows
+      name: 1es-pool-azfunc
+      image: 1es-windows-2022
+      os: windows 
+    - type: macos
+      name: Azure Pipelines
+      image: macOS-latest
+      os: macOS
+
+jobs:
+  - ${{ each pool in parameters.pools }}:
+    - job: Build_And_Test_${{ pool.type }}
+      displayName: 'Build and Test ${{ pool.type }}'
+
+      pool:
+        name: ${{ pool.name }}
+        image: ${{ pool.image }}
+        os: ${{ pool.os }}
+
+      steps:
+      - task: Npm@1
+        inputs:
+          command: 'install'
+        displayName: 'Install dependencies'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run build'
+        displayName: 'Build'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run test'
+        displayName: 'Test'

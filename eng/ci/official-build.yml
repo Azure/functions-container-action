@@ -30,6 +30,23 @@ variables:
   - template: ci/variables/build.yml@eng
   - template: ci/variables/cfs.yml@eng
 
+parameters:
+  - name: pools
+    type: object
+    default:
+      - type: linux
+        name: 1es-pool-azfunc
+        image: 1es-ubuntu-22.04
+        os: linux
+      - type: windows
+        name: 1es-pool-azfunc
+        image: 1es-windows-2022
+        os: windows 
+      - type: macos
+        name: Azure Pipelines
+        image: macOS-latest
+        os: macOS
+
 extends:
   template: v1/1ES.Official.PipelineTemplate.yml@1es
   parameters:
@@ -43,3 +60,5 @@ extends:
 
       jobs:
       - template: /eng/ci/templates/jobs/build-and-test.yml@self
+        parameters:
+          pools: ${{ parameters.pools }}

@@ -8,6 +8,9 @@ The repository contains a GitHub Action to deploy your customized function app i
 
 The definition of this GitHub Action is in [action.yml](https://github.com/Azure/functions-container-action/blob/master/action.yml).
 
+> [!WARNING]
+> This only works with an Azure Function set to "Deploy as Container Image". Not all Azure Function plans support this option.  If you use a plan set to "Deploy as Code" or one without this option, your container will deploy correctly, but will not start, showing the error "0 functions found".
+
 # End-to-End Sample workflow
 
 ## Dependencies on other GitHub Actions
@@ -43,11 +46,15 @@ Create an [Azure Service Principal for RBAC](https://docs.microsoft.com/en-us/az
 
 ## Create Azure function app and Deploy to function app container using GitHub Actions
 1. Follow the tutorial [Create a function on Linux using a custom image](https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-function-linux-custom-image)
-2. Customize your Dockerfile to ensure the function app dependencies can be resolved properly on runtime (e.g. npm install)
-3. Use the [linux-container-functionapp-on-azure.yml](https://github.com/Azure/actions-workflow-samples/tree/master/FunctionApp/linux-container-functionapp-on-azure.yml) template as a reference, create a new workflow.yml file under your project `./github/workflows/`
-4. Commit and push your project to GitHub repository, you should see a new GitHub Action initiated in **Actions** tab.
+2. Ensure you choose an Azure Function plan with the question "Do you want to deploy code or container image?" and ensure you answer `Container Image`. 
+3. Customize your Dockerfile to ensure the function app dependencies can be resolved properly on runtime (e.g. npm install)
+4. Use the [linux-container-functionapp-on-azure.yml](https://github.com/Azure/actions-workflow-samples/tree/master/FunctionApp/linux-container-functionapp-on-azure.yml) template as a reference, create a new workflow.yml file under your project `./github/workflows/`
+5. Commit and push your project to GitHub repository, you should see a new GitHub Action initiated in **Actions** tab.
 
 Azure Functions Action for deploying customized Azure Functions image is supported for the Azure public cloud as well as Azure government clouds ('AzureUSGovernment' or 'AzureChinaCloud'). Before running this action, login to the respective Azure Cloud  using [Azure Login](https://github.com/Azure/login) by setting appropriate value for the `environment` parameter.
+
+> [!WARNING]
+> This only works with an Azure Function set to "Deploy as Container Image". Not all Azure Function plans support this option.  If you use a plan set to "Deploy as Code" or one without this option, your container will deploy correctly, but will not start, showing the error "0 functions found".
 
 # Contributing
 

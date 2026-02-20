@@ -4,6 +4,7 @@ With the Azure Functions GitHub Action, you can automate your workflow to deploy
 
 Get started today with a [free Azure account](https://azure.com/free/open-source)!
 
+Another change
 
 The repository contains a GitHub Action to deploy your customized function app image into Azure Functions. If you are looking for a simple GitHub Action to deploy your function app without building a customized image, please consider using [functions-action](https://github.com/Azure/functions-action).
 

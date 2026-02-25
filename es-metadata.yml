@@ -1,0 +1,8 @@
+schemaVersion: 0.0.1
+isProduction: true
+accountableOwners:
+  service: df36aee8-c644-400b-a0ab-fd0f1191211d
+routing:
+  defaultAreaPath:
+    org: msazure
+    path: Antares\Generic0PAgent

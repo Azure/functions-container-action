@@ -74,17 +74,10 @@ export function template(templateSpec, env) {
     }
     partial = env.VM.resolvePartial.call(this, partial, context, options);
 
-    let extendedOptions = Utils.extend({}, options, {
-      hooks: this.hooks,
-      protoAccessControl: this.protoAccessControl
-    });
+    options.hooks = this.hooks;
+    options.protoAccessControl = this.protoAccessControl;
 
-    let result = env.VM.invokePartial.call(
-      this,
-      partial,
-      context,
-      extendedOptions
-    );
+    let result = env.VM.invokePartial.call(this, partial, context, options);
 
     if (result == null && env.compile) {
       options.partials[options.name] = env.compile(
@@ -92,7 +85,7 @@ export function template(templateSpec, env) {
         templateSpec.compilerOptions,
         env
       );
-      result = options.partials[options.name](context, extendedOptions);
+      result = options.partials[options.name](context, options);
     }
     if (result != null) {
       if (options.indent) {
@@ -145,7 +138,7 @@ export function template(templateSpec, env) {
       for (let i = 0; i < len; i++) {
         let result = depths[i] && container.lookupProperty(depths[i], name);
         if (result != null) {
-          return depths[i][name];
+          return result;
         }
       }
     },
@@ -254,8 +247,9 @@ export function template(templateSpec, env) {
 
   ret._setup = function(options) {
     if (!options.partial) {
-      let mergedHelpers = Utils.extend({}, env.helpers, options.helpers);
-      wrapHelpersToPassLookupProperty(mergedHelpers, container);
+      let mergedHelpers = {};
+      addHelpers(mergedHelpers, env.helpers, container);
+      addHelpers(mergedHelpers, options.helpers, container);
       container.helpers = mergedHelpers;
 
       if (templateSpec.usePartial) {
@@ -355,21 +349,21 @@ export function wrapProgram(
 export function resolvePartial(partial, context, options) {
   if (!partial) {
     if (options.name === '@partial-block') {
-      partial = options.data['partial-block'];
+      partial = lookupOwnProperty(options.data, 'partial-block');
     } else {
-      partial = options.partials[options.name];
+      partial = lookupOwnProperty(options.partials, options.name);
     }
   } else if (!partial.call && !options.name) {
     // This is a dynamic partial that returned a string
     options.name = partial;
-    partial = options.partials[partial];
+    partial = lookupOwnProperty(options.partials, partial);
   }
   return partial;
 }
 
 export function invokePartial(partial, context, options) {
   // Use the current closure context to save the partial-block if this partial
-  const currentPartialBlock = options.data && options.data['partial-block'];
+  const currentPartialBlock = lookupOwnProperty(options.data, 'partial-block');
   options.partial = true;
   if (options.ids) {
     options.data.contextPath = options.ids[0] || options.data.contextPath;
@@ -410,6 +404,12 @@ export function noop() {
   return '';
 }
 
+function lookupOwnProperty(obj, name) {
+  if (obj && Object.prototype.hasOwnProperty.call(obj, name)) {
+    return obj[name];
+  }
+}
+
 function initData(context, data) {
   if (!data || !('root' in data)) {
     data = data ? createFrame(data) : {};
@@ -435,9 +435,10 @@ function executeDecorators(fn, prog, container, depths, data, blockParams) {
   return prog;
 }
 
-function wrapHelpersToPassLookupProperty(mergedHelpers, container) {
-  Object.keys(mergedHelpers).forEach(helperName => {
-    let helper = mergedHelpers[helperName];
+function addHelpers(mergedHelpers, helpers, container) {
+  if (!helpers) return;
+  Object.keys(helpers).forEach(helperName => {
+    let helper = helpers[helperName];
     mergedHelpers[helperName] = passLookupPropertyOption(helper, container);
   });
 }
@@ -445,6 +446,7 @@ function wrapHelpersToPassLookupProperty(mergedHelpers, container) {
 function passLookupPropertyOption(helper, container) {
   const lookupProperty = container.lookupProperty;
   return wrapHelper(helper, options => {
-    return Utils.extend({ lookupProperty }, options);
+    options.lookupProperty = lookupProperty;
+    return options;
   });
 }

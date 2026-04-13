@@ -2,7 +2,17 @@
 
 ## Development
 
-[Commits](https://github.com/handlebars-lang/handlebars.js/compare/v4.7.8...master)
+[Commits](https://github.com/handlebars-lang/handlebars.js/compare/v4.7.9...master)
+
+## v4.7.9 - March 26th, 2026
+- fix: enable shell mode for spawn to resolve Windows EINVAL issue - e0137c2
+- fix type "RuntimeOptions" also accepting string partials - eab1d14
+- feat(types): set `hash` to be a `Record<string, any>` - de4414d
+- fix non-contiguous program indices - 4512766
+- refactor: rename i to startPartIndex - e497a35
+- security: fix security issues - 68d8df5
+
+[Commits](https://github.com/handlebars-lang/handlebars.js/compare/v4.7.8...v4.7.9)
 
 ## v4.7.8 - July 27th, 2023
 

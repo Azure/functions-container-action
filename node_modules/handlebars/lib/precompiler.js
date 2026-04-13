@@ -196,16 +196,24 @@ module.exports.cli = function(opts) {
 
   const objectName = opts.partial ? 'Handlebars.partials' : 'templates';
 
+  if (opts.namespace && !isValidNamespace(opts.namespace)) {
+    throw new Handlebars.Exception('Invalid namespace format');
+  }
+
   let output = new SourceNode();
   if (!opts.simple) {
     if (opts.amd) {
+      const runtimeModulePath =
+        (opts.handlebarPath || '') + 'handlebars.runtime';
       output.add(
-        "define(['" +
-          opts.handlebarPath +
-          'handlebars.runtime\'], function(Handlebars) {\n  Handlebars = Handlebars["default"];'
+        'define([' +
+          quoteForJavaScript(runtimeModulePath) +
+          '], function(Handlebars) {\n  Handlebars = Handlebars["default"];'
       );
     } else if (opts.commonjs) {
-      output.add('var Handlebars = require("' + opts.commonjs + '");');
+      output.add(
+        'var Handlebars = require(' + quoteForJavaScript(opts.commonjs) + ');'
+      );
     } else {
       output.add('(function() {\n');
     }
@@ -255,9 +263,9 @@ module.exports.cli = function(opts) {
       }
       output.add([
         objectName,
-        "['",
-        template.name,
-        "'] = template(",
+        '[',
+        quoteForJavaScript(template.name),
+        '] = template(',
         precompiled,
         ');\n'
       ]);
@@ -277,7 +285,9 @@ module.exports.cli = function(opts) {
   }
 
   if (opts.map) {
-    output.add('\n//# sourceMappingURL=' + opts.map + '\n');
+    output.add(
+      '\n//# sourceMappingURL=' + sanitizeSourceMapComment(opts.map) + '\n'
+    );
   }
 
   output = output.toStringWithSourceMap();
@@ -305,6 +315,33 @@ function arrayCast(value) {
     value = [value];
   }
   return value;
+}
+
+/*
+ * Safely quotes a value for embedding in generated JavaScript strings
+ *
+ * Uses JSON.stringify which handles all special characters.
+ */
+function quoteForJavaScript(value) {
+  return JSON.stringify(String(value));
+}
+
+/**
+ * Validates that a namespace is a legitimate dotted JavaScript identifier
+ * (e.g. "App.templates") to prevent arbitrary code injection
+ */
+function isValidNamespace(namespace) {
+  return /^[A-Za-z_$][A-Za-z0-9_$]*(\.[A-Za-z_$][A-Za-z0-9_$]*)*$/.test(
+    namespace
+  );
+}
+
+/**
+ * Strips line terminators from source map URLs to prevent injection of new
+ * JavaScript lines via the sourceMappingURL comment
+ */
+function sanitizeSourceMapComment(value) {
+  return String(value).replace(/[\r\n\u2028\u2029]/g, '');
 }
 
 /**
